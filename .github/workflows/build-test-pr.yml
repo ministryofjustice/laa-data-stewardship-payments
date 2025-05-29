@@ -103,11 +103,11 @@ jobs:
       - name: Build app jar with gradle
         run: ./gradlew build
 
-      - name: Build a Docker image
-        run: docker build -t laa-data-stewardship-payments:scan claims-data
+      - name: Build a Docker image for claims-data
+        run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
 
-      - name: Run Snyk to check Docker image for vulnerabilities
+      - name: Run Snyk to check claims-data Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         with:
-          image: laa-data-stewardship-payments:scan
+          image: laa-data-stewardship-payments/claims-data:scan
           args: --file=Dockerfile --severity-threshold=high
