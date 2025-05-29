@@ -34,14 +34,14 @@ jobs:
       - name: Integration test
         run: ./gradlew integrationTest --tests '*IntegrationTest'
 
-      - name: Upload test results
+      - name: Upload test results for claims-data
         uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: claims-data-service/build/test-results
           retention-days: 14
 
-      - name: Upload checkstyle report
+      - name: Upload checkstyle report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -49,7 +49,7 @@ jobs:
           path: claims-data-service/build/reports/checkstyle
           retention-days: 14
 
-      - name: Upload test report
+      - name: Upload test report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -57,7 +57,7 @@ jobs:
           path: claims-data-service/build/reports/tests
           retention-days: 14
 
-      - name: Upload jacoco coverage report
+      - name: Upload jacoco coverage report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:

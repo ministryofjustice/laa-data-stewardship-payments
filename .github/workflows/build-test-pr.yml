@@ -39,7 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload checkstyle report
+      - name: Upload checkstyle report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -47,7 +47,7 @@ jobs:
           path: claims-data-service/build/reports/checkstyle
           retention-days: 14
 
-      - name: Upload test report
+      - name: Upload test report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -55,7 +55,7 @@ jobs:
           path: claims-data-service/build/reports/tests
           retention-days: 14
 
-      - name: Upload jacoco coverage report
+      - name: Upload jacoco coverage report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -104,10 +104,10 @@ jobs:
         run: ./gradlew build
 
       - name: Build a Docker image for claims-data
-        run: docker build -t abc-xyz/claims-data:scan ./claims-data
+        run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
 
       - name: Run Snyk to check claims-data Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         with:
-          image: abc-xyz/claims-data:scan
-          args: --file=claims-data/Dockerfile --severity-threshold=high
+          image: laa-data-stewardship-payments/claims-data:scan
+          args: --file=Dockerfile --severity-threshold=high
