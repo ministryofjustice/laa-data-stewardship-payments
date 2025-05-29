@@ -104,10 +104,10 @@ jobs:
         run: ./gradlew build
 
       - name: Build a Docker image for claims-data
-        run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
+        run: docker build -t abc-xyz/claims-data:scan ./claims-data
 
       - name: Run Snyk to check claims-data Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         with:
-          image: laa-data-stewardship-payments/claims-data:scan
-          args: --file=Dockerfile --severity-threshold=high
+          image: abc-xyz/claims-data:scan
+          args: --file=claims-data/Dockerfile --severity-threshold=high
