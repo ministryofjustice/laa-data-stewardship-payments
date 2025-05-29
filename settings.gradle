@@ -19,6 +19,7 @@ pluginManagement {
 
 rootProject.name = 'laa-data-stewardship-payments'
 
-include 'laa-data-stewardship-payments-api'
-include 'laa-data-stewardship-payments-service'
+include 'claims-data'
+include 'claims-data:api'
+include 'claims-data:service'
 
