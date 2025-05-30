@@ -6,36 +6,36 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.justice.laa.dstew.payments.claimsdata.entity.ItemEntity;
-import uk.gov.justice.laa.dstew.payments.claimsdata.model.Item;
+import uk.gov.justice.laa.dstew.payments.claimsdata.entity.ClaimEntity;
+import uk.gov.justice.laa.dstew.payments.claimsdata.model.Claim;
 
 @ExtendWith(MockitoExtension.class)
-class ItemMapperTest {
-  private static final Long ITEM_ID = 123L;
-  private static final String ITEM_NAME = "Item One";
-  private static final String ITEM_DESCRIPTION = "This is Item One.";
+class ClaimMapperTest {
+  private static final Long CLAIM_ID = 123L;
+  private static final String CLAIM_NAME = "Claim One";
+  private static final String CLAIM_DESCRIPTION = "This is Claim One.";
 
-  @InjectMocks private ItemMapper itemMapper = new ItemMapperImpl();
+  @InjectMocks private ClaimMapper claimMapper = new ClaimMapperImpl();
 
   @Test
-  void shouldMapToItemEntity() {
-    Item item = Item.builder().id(ITEM_ID).name(ITEM_NAME).description(ITEM_DESCRIPTION).build();
+  void shouldMapToClaimEntity() {
+    Claim claim = Claim.builder().id(CLAIM_ID).name(CLAIM_NAME).description(CLAIM_DESCRIPTION).build();
 
-    ItemEntity result = itemMapper.toItemEntity(item);
+    ClaimEntity result = claimMapper.toClaimEntity(claim);
 
     assertThat(result).isNotNull();
-    assertThat(result.getId()).isEqualTo(ITEM_ID);
-    assertThat(result.getName()).isEqualTo(ITEM_NAME);
+    assertThat(result.getId()).isEqualTo(CLAIM_ID);
+    assertThat(result.getName()).isEqualTo(CLAIM_NAME);
   }
 
   @Test
-  void shouldMapToItem() {
-    ItemEntity itemEntity = new ItemEntity(ITEM_ID, ITEM_NAME, ITEM_DESCRIPTION);
+  void shouldMapToClaim() {
+    ClaimEntity claimEntity = new ClaimEntity(CLAIM_ID, CLAIM_NAME, CLAIM_DESCRIPTION);
 
-    Item result = itemMapper.toItem(itemEntity);
+    Claim result = claimMapper.toClaim(claimEntity);
 
     assertThat(result).isNotNull();
-    assertThat(result.getId()).isEqualTo(ITEM_ID);
-    assertThat(result.getName()).isEqualTo(ITEM_NAME);
+    assertThat(result.getId()).isEqualTo(CLAIM_ID);
+    assertThat(result.getName()).isEqualTo(CLAIM_NAME);
   }
 }

@@ -11,15 +11,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The entity class for items.
+ * The entity class for claims.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ITEMS")
-public class ItemEntity {
+@Table(name = "CLAIMS")
+public class ClaimEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

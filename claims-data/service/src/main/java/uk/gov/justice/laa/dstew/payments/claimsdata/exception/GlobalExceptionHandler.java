@@ -16,13 +16,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   /**
-   * The handler for ItemNotFoundException.
+   * The handler for ClaimNotFoundException.
    *
    * @param exception the exception
    * @return the response status with error message
    */
-  @ExceptionHandler(ItemNotFoundException.class)
-  public ResponseEntity<String> handleItemNotFound(ItemNotFoundException exception) {
+  @ExceptionHandler(ClaimNotFoundException.class)
+  public ResponseEntity<String> handleClaimNotFound(ClaimNotFoundException exception) {
     return ResponseEntity.status(NOT_FOUND).body(exception.getMessage());
   }
 

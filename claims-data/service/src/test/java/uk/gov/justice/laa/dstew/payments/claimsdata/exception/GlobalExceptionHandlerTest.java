@@ -12,13 +12,13 @@ class GlobalExceptionHandlerTest {
   GlobalExceptionHandler globalExceptionHandler = new GlobalExceptionHandler();
 
   @Test
-  void handleItemNotFound_returnsNotFoundStatusAndErrorMessage() {
-    ResponseEntity<String> result = globalExceptionHandler.handleItemNotFound(new ItemNotFoundException("Item not found"));
+  void handleClaimNotFound_returnsNotFoundStatusAndErrorMessage() {
+    ResponseEntity<String> result = globalExceptionHandler.handleClaimNotFound(new ClaimNotFoundException("Claim not found"));
 
     assertThat(result).isNotNull();
     assertThat(result.getStatusCode()).isEqualTo(NOT_FOUND);
     assertThat(result.getBody()).isNotNull();
-    assertThat(result.getBody()).isEqualTo("Item not found");
+    assertThat(result.getBody()).isEqualTo("Claim not found");
   }
 
   @Test

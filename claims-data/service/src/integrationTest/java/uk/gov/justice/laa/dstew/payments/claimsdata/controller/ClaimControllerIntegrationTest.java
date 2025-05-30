@@ -21,54 +21,54 @@ import uk.gov.justice.laa.dstew.payments.claimsdata.ClaimsDataApplication;
 @SpringBootTest(classes = ClaimsDataApplication.class)
 @AutoConfigureMockMvc
 @Transactional
-public class ItemControllerIntegrationTest {
+public class ClaimControllerIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Test
-  void shouldGetAllItems() throws Exception {
+  void shouldGetAllClaims() throws Exception {
     mockMvc
-        .perform(get("/api/v1/items"))
+        .perform(get("/api/v1/claims"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.*", hasSize(5)));
   }
 
   @Test
-  void shouldGetItem() throws Exception {
-    mockMvc.perform(get("/api/v1/items/1"))
+  void shouldGetClaim() throws Exception {
+    mockMvc.perform(get("/api/v1/claims/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.id").value(1))
-        .andExpect(jsonPath("$.name").value("Item One"))
-        .andExpect(jsonPath("$.description").value("This is a description of Item One."));
+        .andExpect(jsonPath("$.name").value("Claim One"))
+        .andExpect(jsonPath("$.description").value("This is a description of Claim One."));
   }
 
   @Test
-  void shouldCreateItem() throws Exception {
+  void shouldCreateClaim() throws Exception {
     mockMvc
         .perform(
-            post("/api/v1/items")
+            post("/api/v1/claims")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\": \"Item Six\", \"description\": \"This is a description of Item Six.\"}")
+                .content("{\"name\": \"Claim Six\", \"description\": \"This is a description of Claim Six.\"}")
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated());
   }
 
   @Test
-  void shouldUpdateItem() throws Exception {
+  void shouldUpdateClaim() throws Exception {
     mockMvc
         .perform(
-            put("/api/v1/items/2")
+            put("/api/v1/claims/2")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\": 2, \"name\": \"Item Two\", \"description\": \"This is a updated description of Item Three.\"}")
+                .content("{\"id\": 2, \"name\": \"Claim Two\", \"description\": \"This is a updated description of Claim Three.\"}")
                 .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNoContent());
   }
 
   @Test
-  void shouldDeleteItem() throws Exception {
-    mockMvc.perform(delete("/api/v1/items/3")).andExpect(status().isNoContent());
+  void shouldDeleteClaim() throws Exception {
+    mockMvc.perform(delete("/api/v1/claims/3")).andExpect(status().isNoContent());
   }
 }

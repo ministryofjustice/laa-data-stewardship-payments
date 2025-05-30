@@ -1,4 +1,4 @@
-CREATE TABLE ITEMS
+CREATE TABLE claims
 (
     id          BIGINT          AUTO_INCREMENT,
     name        varchar(20)     NOT NULL,

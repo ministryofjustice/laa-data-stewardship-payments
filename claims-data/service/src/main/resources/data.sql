@@ -1,6 +1,6 @@
--- Used to seed the example Items database
-INSERT INTO ITEMS(NAME, DESCRIPTION) VALUES('Item One', 'This is a description of Item One.');
-INSERT INTO ITEMS(NAME, DESCRIPTION) VALUES('Item Two', 'This is a description of Item Two.');
-INSERT INTO ITEMS(NAME, DESCRIPTION) VALUES('Item Three', 'This is a description of Item Three.');
-INSERT INTO ITEMS(NAME, DESCRIPTION) VALUES('Item Four', 'This is a description of Item Four.');
-INSERT INTO ITEMS(NAME, DESCRIPTION) VALUES('Item Five', 'This is a description of Item Five.');
+-- Used to seed the example Claims database
+INSERT INTO CLAIMS(NAME, DESCRIPTION) VALUES('Claim One', 'This is a description of Claim One.');
+INSERT INTO CLAIMS(NAME, DESCRIPTION) VALUES('Claim Two', 'This is a description of Claim Two.');
+INSERT INTO CLAIMS(NAME, DESCRIPTION) VALUES('Claim Three', 'This is a description of Claim Three.');
+INSERT INTO CLAIMS(NAME, DESCRIPTION) VALUES('Claim Four', 'This is a description of Claim Four.');
+INSERT INTO CLAIMS(NAME, DESCRIPTION) VALUES('Claim Five', 'This is a description of Claim Five.');

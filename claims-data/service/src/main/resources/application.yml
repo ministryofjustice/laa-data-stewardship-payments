@@ -4,7 +4,7 @@ spring:
 
   # example database
   datasource:
-    url: jdbc:h2:mem:itemsDb
+    url: jdbc:h2:mem:claimsDb
     driver-class-name: org.h2.Driver
     username: sa
     password: password
