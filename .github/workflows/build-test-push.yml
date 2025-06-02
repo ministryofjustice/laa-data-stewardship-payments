@@ -108,7 +108,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: service-jar
-          path: service/build/libs/*.jar
+          path: /opt/laa-data-stewardship-payments/claims-data/service/build/libs/*.jar
 
       - name: Build a Docker image for claims-data
         run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
