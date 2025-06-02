@@ -110,4 +110,4 @@ jobs:
         uses: snyk/actions/docker@master
         with:
           image: laa-data-stewardship-payments/claims-data:scan
-          args: --file=Dockerfile --severity-threshold=high
+          args: --file=./claims-data/Dockerfile --severity-threshold=high
