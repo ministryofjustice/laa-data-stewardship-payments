@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laa-data-stewardship-payments-deployment
+  labels:
+    app: laa-data-stewardship-payments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laa-data-stewardship-payments # this should match the selector in service.yml
+  template:
+    metadata:
+      labels:
+        app: laa-data-stewardship-payments # this should match the selector in service.yml
+    spec:
+      containers:
+        - name: laa-data-stewardship-payments
+          image: ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
+          ports:
+            - containerPort: 8080
+            # - containerPort: 8443
