@@ -102,7 +102,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build app jar with gradle
-        run: ./gradlew build
+        run: ./gradlew build --info
 
       - name: Upload JAR artifact
         uses: actions/upload-artifact@v4
