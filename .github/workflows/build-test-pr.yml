@@ -39,28 +39,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload checkstyle report
+      - name: Upload checkstyle report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: checkstyle-report
-          path: spring-boot-microservice-service/build/reports/checkstyle
+          path: claims-data-service/build/reports/checkstyle
           retention-days: 14
 
-      - name: Upload test report
+      - name: Upload test report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-report
-          path: spring-boot-microservice-service/build/reports/tests
+          path: claims-data-service/build/reports/tests
           retention-days: 14
 
-      - name: Upload jacoco coverage report
+      - name: Upload jacoco coverage report for claims-data
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: jacoco-coverage-report
-          path: spring-boot-microservice-service/build/reports/jacoco
+          path: claims-data-service/build/reports/jacoco
           retention-days: 14
 
   vulnerability-scan-app:
@@ -103,11 +103,11 @@ jobs:
       - name: Build app jar with gradle
         run: ./gradlew build
 
-      - name: Build a Docker image
-        run: docker build -t spring-boot-microservice:scan .
+      - name: Build a Docker image for claims-data
+        run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
 
-      - name: Run Snyk to check Docker image for vulnerabilities
+      - name: Run Snyk to check claims-data Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         with:
-          image: spring-boot-microservice:scan
-          args: --file=Dockerfile --severity-threshold=high
+          image: laa-data-stewardship-payments/claims-data:scan
+          args: --file=./claims-data/Dockerfile --severity-threshold=high
