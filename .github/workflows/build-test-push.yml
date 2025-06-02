@@ -102,13 +102,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build app jar with gradle
-        run: ./gradlew build --debug
-
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: service-jar
-          path: /opt/laa-data-stewardship-payments/claims-data/service/build/libs/*.jar
+        run: ./gradlew build
 
       - name: Build a Docker image for claims-data
         run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
@@ -128,12 +122,6 @@ jobs:
       contents: read # This is required for actions/checkout
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download JAR artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: service-jar
-          path: service/build/libs/
 
       - uses: aws-actions/configure-aws-credentials@v2
         with:
