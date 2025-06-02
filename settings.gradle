@@ -17,8 +17,9 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'laa-spring-boot-microservice-template'
+rootProject.name = 'laa-data-stewardship-payments'
 
-include 'spring-boot-microservice-api'
-include 'spring-boot-microservice-service'
+include 'claims-data'
+include 'claims-data:api'
+include 'claims-data:service'
 

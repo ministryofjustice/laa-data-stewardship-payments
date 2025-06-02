@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: LAA Data Stewardship Payments - Claims Data Application
+
+  # example database
+  datasource:
+    url: jdbc:h2:mem:claimsDb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+
+  #do not auto create db schema, use .sql scripts
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+# used by actuator info endpoint
+info:
+  app:
+    name: LAA Data Stewardship Payments - Claims Data Application
+    description: LAA Data Stewardship Payments - Claims Data Application that provides APIs to access Claims related data.
+    version: 1.0.0
+
+management:
+  # specify actuator endpoints to enable
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  # show detailed health status
+  endpoint:
+    health:
+      show-details: always
+
+  info:
+    env:
+      enabled: true
