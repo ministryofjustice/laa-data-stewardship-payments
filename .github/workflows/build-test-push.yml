@@ -104,9 +104,6 @@ jobs:
       - name: Build app jar with gradle
         run: ./gradlew build
 
-      - name: Debug workspace contents
-        run: ls -R
-
       - name: Build a Docker image for claims-data
         run: docker build -t laa-data-stewardship-payments/claims-data:scan ./claims-data
 
