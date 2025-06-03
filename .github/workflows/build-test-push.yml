@@ -191,7 +191,7 @@ jobs:
       - uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
       - name: Deploy image to UAT
-      - run: |
+        run: |
           cat deployments/templates/deployment.yml | envsubst > deployments/deployment.yml
           cat deployments/templates/ingress.yml | envsubst > deployments/ingress.yml
           cat deployments/templates/service.yml | envsubst > deployments/service.yml
