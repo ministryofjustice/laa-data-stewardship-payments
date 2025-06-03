@@ -131,7 +131,6 @@ jobs:
         id: login-ecr
       - name: Build and push a Docker image for claims-data
         run: |
-          cd claims-data
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./claims-data
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
         env:
