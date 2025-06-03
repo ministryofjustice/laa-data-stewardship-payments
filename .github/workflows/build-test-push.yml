@@ -25,9 +25,18 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Build and test
-        run: ./gradlew build
+        run: |
+          ./gradlew build
+          ls -R
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: service-jar
+          path: claims-data/service/build/libs/*.jar
+          retention-days: 1
 
       - name: Test coverage verification
         run: ./gradlew jacocoTestCoverageVerification
@@ -122,6 +131,12 @@ jobs:
       contents: read # This is required for actions/checkout
     steps:
       - uses: actions/checkout@v4
+
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: service-jar
+          path: service/build/libs/
 
       - uses: aws-actions/configure-aws-credentials@v2
         with:
