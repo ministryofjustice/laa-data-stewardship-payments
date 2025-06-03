@@ -43,7 +43,7 @@ class ClaimControllerTest {
         Claim.builder().id(2L).name("Claim Two").description("This is a test claim two.").build());
     when(mockClaimService.getAllClaims()).thenReturn(claims);
 
-    mockMvc.perform(get("/api/v1/claims"))
+    mockMvc.perform(get("/api/claims-data/v1/claims"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.*", hasSize(2)));
@@ -53,7 +53,7 @@ class ClaimControllerTest {
   void getClaimById_returnsOkStatusAndOneClaim() throws Exception {
     when(mockClaimService.getClaim(1L)).thenReturn(Claim.builder().id(1L).name("Claim One").description("This is a test claim one.").build());
 
-    mockMvc.perform(get("/api/v1/claims/1"))
+    mockMvc.perform(get("/api/claims-data/v1/claims/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.id").value(1))
@@ -68,24 +68,24 @@ class ClaimControllerTest {
         .thenReturn(3L);
 
     mockMvc
-        .perform(post("/api/v1/claims")
+        .perform(post("/api/claims-data/v1/claims")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\": \"Claim Three\", \"description\": \"This is an updated claim three.\"}")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isCreated())
-        .andExpect(header().string("Location", containsString("/api/v1/claims/3")));
+        .andExpect(header().string("Location", containsString("/api/claims-data/v1/claims/3")));
   }
 
   @Test
   void createClaim_returnsBadRequestStatus() throws Exception {
     mockMvc
-        .perform(post("/api/v1/claims")
+        .perform(post("/api/claims-data/v1/claims")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\": \"Claim Three\"}")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
         .andExpect(content().string("{\"type\":\"about:blank\",\"title\":\"Bad Request\"," +
-            "\"status\":400,\"detail\":\"Invalid request content.\",\"instance\":\"/api/v1/claims\"}"));
+            "\"status\":400,\"detail\":\"Invalid request content.\",\"instance\":\"/api/claims-data/v1/claims\"}"));
 
     verify(mockClaimService, never()).createClaim(any(ClaimRequestBody.class));
   }
@@ -93,7 +93,7 @@ class ClaimControllerTest {
   @Test
   void updateClaim_returnsNoContentStatus() throws Exception {
     mockMvc
-        .perform(put("/api/v1/claims/2")
+        .perform(put("/api/claims-data/v1/claims/2")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\": \"Claim Two\", \"description\": \"This is an updated claim two.\"}")
             .accept(MediaType.APPLICATION_JSON))
@@ -105,20 +105,20 @@ class ClaimControllerTest {
   @Test
   void updateClaim_returnsBadRequestStatus() throws Exception {
     mockMvc
-        .perform(put("/api/v1/claims/2")
+        .perform(put("/api/claims-data/v1/claims/2")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"description\": \"This is an updated claim two.\"}")
             .accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isBadRequest())
         .andExpect(content().string("{\"type\":\"about:blank\",\"title\":\"Bad Request\"," +
-            "\"status\":400,\"detail\":\"Invalid request content.\",\"instance\":\"/api/v1/claims/2\"}"));
+            "\"status\":400,\"detail\":\"Invalid request content.\",\"instance\":\"/api/claims-data/v1/claims/2\"}"));
 
     verify(mockClaimService, never()).updateClaim(eq(2L), any(ClaimRequestBody.class));
   }
 
   @Test
   void deleteClaim_returnsNoContentStatus() throws Exception {
-    mockMvc.perform(delete("/api/v1/claims/3")).andExpect(status().isNoContent());
+    mockMvc.perform(delete("/api/claims-data/v1/claims/3")).andExpect(status().isNoContent());
 
     verify(mockClaimService).deleteClaim(3L);
   }
