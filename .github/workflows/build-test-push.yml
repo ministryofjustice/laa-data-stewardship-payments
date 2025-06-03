@@ -120,7 +120,7 @@ jobs:
           image: laa-data-stewardship-payments/claims-data:scan
           args: --file=./claims-data/Dockerfile --severity-threshold=high
 
-  ecr:
+  build-deploy-to-dev:
     runs-on: ubuntu-latest
     needs:
       - build-test
@@ -174,7 +174,7 @@ jobs:
   deploy-to-uat:
     runs-on: ubuntu-latest
     needs:
-      - build-test
+      - build-deploy-to-dev
     environment:
       name: uat  # this triggers the required approval step
     permissions:
