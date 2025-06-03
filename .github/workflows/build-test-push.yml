@@ -136,7 +136,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: service-jar
-          path: service/build/libs/
+          path: claims-data/service/build/libs/
 
       - uses: aws-actions/configure-aws-credentials@v2
         with:
