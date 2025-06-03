@@ -29,6 +29,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Find and echo jar file location
+        run: find . -name "*.jar"
+
       - name: Test coverage verification
         run: ./gradlew jacocoTestCoverageVerification
 
@@ -116,7 +119,7 @@ jobs:
   ecr:
     runs-on: ubuntu-latest
     needs:
-      - vulnerability-scan-docker
+      - build-test
     permissions:
       id-token: write # This is required for requesting the JWT
       contents: read # This is required for actions/checkout
