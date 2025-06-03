@@ -29,7 +29,7 @@ public class ClaimControllerIntegrationTest {
   @Test
   void shouldGetAllClaims() throws Exception {
     mockMvc
-        .perform(get("/api/v1/claims"))
+        .perform(get("/api/claims-data/v1/claims"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.*", hasSize(5)));
@@ -37,7 +37,7 @@ public class ClaimControllerIntegrationTest {
 
   @Test
   void shouldGetClaim() throws Exception {
-    mockMvc.perform(get("/api/v1/claims/1"))
+    mockMvc.perform(get("/api/claims-data/v1/claims/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
         .andExpect(jsonPath("$.id").value(1))
@@ -49,7 +49,7 @@ public class ClaimControllerIntegrationTest {
   void shouldCreateClaim() throws Exception {
     mockMvc
         .perform(
-            post("/api/v1/claims")
+            post("/api/claims-data/v1/claims")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"name\": \"Claim Six\", \"description\": \"This is a description of Claim Six.\"}")
                 .accept(MediaType.APPLICATION_JSON))
@@ -60,7 +60,7 @@ public class ClaimControllerIntegrationTest {
   void shouldUpdateClaim() throws Exception {
     mockMvc
         .perform(
-            put("/api/v1/claims/2")
+            put("/api/claims-data/v1/claims/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\": 2, \"name\": \"Claim Two\", \"description\": \"This is a updated description of Claim Three.\"}")
                 .accept(MediaType.APPLICATION_JSON))
@@ -69,6 +69,6 @@ public class ClaimControllerIntegrationTest {
 
   @Test
   void shouldDeleteClaim() throws Exception {
-    mockMvc.perform(delete("/api/v1/claims/3")).andExpect(status().isNoContent());
+    mockMvc.perform(delete("/api/claims-data/v1/claims/3")).andExpect(status().isNoContent());
   }
 }
