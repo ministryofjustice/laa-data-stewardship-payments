@@ -182,7 +182,13 @@ jobs:
       contents: read # This is required for actions/checkout
     steps:
       - run: echo "Deploying to UAT"
-
+      - name: Checkout only UAT deployment files
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            deployments/templates
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
       - uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}

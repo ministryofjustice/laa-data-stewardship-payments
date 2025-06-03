@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Claims API
 paths:
-  /api/v1/claims:
+  /api/claims-data/v1/claims:
     get:
       tags:
         - claims
@@ -51,7 +51,7 @@ paths:
         '500':
           description: 'Internal server error'
 
-  /api/v1/claims/{id}:
+  /api/claims-data/v1/claims/{id}:
     get:
       summary: Get claim by id
       operationId: getClaimById
