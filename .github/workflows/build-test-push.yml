@@ -178,6 +178,7 @@ jobs:
     uses: ./.github/workflows/deploy-to-env.yml
     with:
       github_environment: uat
+      aws_region: ${{ vars.ECR_REGION }}
     secrets:
       ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
       kube_namespace: laa-data-stewardship-payments-uat
@@ -191,6 +192,7 @@ jobs:
     uses: ./.github/workflows/deploy-to-env.yml
     with:
       github_environment: staging
+      aws_region: ${{ vars.ECR_REGION }}
     secrets:
       ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
       kube_namespace: laa-data-stewardship-payments-staging

@@ -6,6 +6,9 @@ on:
       github_environment:
         type: string
         required: true
+      aws_region:
+        required: true
+        type: string
     secrets:
       ecr_role_to_assume:
         required: true
@@ -32,10 +35,11 @@ jobs:
             deployments/templates
           sparse-checkout-cone-mode: false
           fetch-depth: 1
+
       - uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.ecr_role_to_assume }}
-          aws-region: ${{ vars.ECR_REGION }}
+          aws-region: ${{ inputs.aws_region }}
 
       - uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
