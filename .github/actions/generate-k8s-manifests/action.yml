@@ -1,0 +1,20 @@
+name: Generate K8s Manifests
+description: Generates deployment, ingress, and service YAMLs by substituting environment variables.
+inputs:
+  namespace:
+    description: Kubernetes namespace to use
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        cat deployments/templates/deployment.yml | envsubst > deployments/deployment.yml
+        cat deployments/templates/ingress.yml | envsubst > deployments/ingress.yml
+        cat deployments/templates/service.yml | envsubst > deployments/service.yml
+      env:
+        IMAGE_TAG: ${{ env.IMAGE_TAG }}
+        REGISTRY: ${{ env.REGISTRY }}
+        REPOSITORY: ${{ env.REPOSITORY }}
+        NAMESPACE: ${{ inputs.namespace }}
