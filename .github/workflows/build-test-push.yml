@@ -179,7 +179,7 @@ jobs:
     with:
       github_environment: uat
     secrets:
-      ecr_role_to_assume: ${{ secrets.DEV_ECR_ROLE_TO_ASSUME }}
+      ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
       kube_namespace: laa-data-stewardship-payments-uat
       kube_cluster: ${{ secrets.KUBE_CLUSTER }}
       kube_token: ${{ secrets.KUBE_TOKEN }}
@@ -192,7 +192,7 @@ jobs:
     with:
       github_environment: staging
     secrets:
-      ecr_role_to_assume: ${{ secrets.DEV_ECR_ROLE_TO_ASSUME }}
+      ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
       kube_namespace: laa-data-stewardship-payments-staging
       kube_cluster: ${{ secrets.KUBE_CLUSTER }}
       kube_token: ${{ secrets.KUBE_TOKEN }}
