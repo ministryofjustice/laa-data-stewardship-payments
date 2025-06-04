@@ -188,7 +188,7 @@ jobs:
   deploy-to-staging:
     name: Deploy to staging
     needs: build-deploy-to-dev
-    uses: deploy-to-env.yml
+    uses: ./.github/workflows/deploy-to-env.yml
     with:
       github_environment: staging
     secrets:
