@@ -22,8 +22,11 @@ on:
         required: true
 
 jobs:
-  deploy-to-uat:
+  deploy-to-env:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write     # ✅ Required for OIDC
+      contents: read
     environment:
       name: ${{ inputs.github_environment }}
     steps:
