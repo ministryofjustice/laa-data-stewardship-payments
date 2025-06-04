@@ -175,7 +175,7 @@ jobs:
   deploy-to-uat:
     name: Deploy to UAT
     needs: build-deploy-to-dev
-    uses: ./.github/workflows/deploy_to_env.yml
+    uses: ./.github/workflows/deploy-to-env.yml
     with:
       github_environment: uat
     secrets:
@@ -188,7 +188,7 @@ jobs:
   deploy-to-staging:
     name: Deploy to staging
     needs: build-deploy-to-dev
-    uses: ./.github/workflows/deploy_to_env.yml
+    uses: deploy-to-env.yml
     with:
       github_environment: staging
     secrets:
