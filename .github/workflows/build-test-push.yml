@@ -129,7 +129,8 @@ jobs:
   build-deploy-to-dev:
     runs-on: ubuntu-latest
     needs:
-      - build-test
+      - vulnerability-scan-app
+      - vulnerability-scan-docker
     steps:
       - uses: actions/checkout@v4
 
@@ -174,19 +175,19 @@ jobs:
           KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
           KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER }}
 
-  deploy-to-uat:
-    name: Deploy to UAT
-    needs: build-deploy-to-dev
-    uses: ./.github/workflows/deploy-to-env.yml
-    with:
-      github_environment: uat
-      aws_region: ${{ vars.ECR_REGION }}
-    secrets:
-      ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-      kube_namespace: laa-data-stewardship-payments-uat
-      kube_cluster: ${{ secrets.KUBE_CLUSTER }}
-      kube_token: ${{ secrets.KUBE_TOKEN }}
-      kube_cert: ${{ secrets.KUBE_CERT }}
+#  deploy-to-uat:
+#    name: Deploy to UAT
+#    needs: build-deploy-to-dev
+#    uses: ./.github/workflows/deploy-to-env.yml
+#    with:
+#      github_environment: uat
+#      aws_region: ${{ vars.ECR_REGION }}
+#    secrets:
+#      ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+#      kube_namespace: laa-data-stewardship-payments-uat
+#      kube_cluster: ${{ secrets.KUBE_CLUSTER }}
+#      kube_token: ${{ secrets.KUBE_TOKEN }}
+#      kube_cert: ${{ secrets.KUBE_CERT }}
 
   deploy-to-staging:
     name: Deploy to staging
