@@ -9,14 +9,15 @@ on:
       aws_region:
         required: true
         type: string
+      kube_namespace:
+        required: true
+        type: string
     secrets:
       ecr_role_to_assume:
         required: true
       kube_cluster:
         required: true
       kube_token:
-        required: true
-      kube_namespace:
         required: true
       kube_cert:
         required: true
@@ -55,12 +56,12 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-          NAMESPACE: ${{ secrets.kube_namespace }}
+          NAMESPACE: ${{ inputs.kube_namespace }}
       - run: |
           echo "${{ secrets.kube_cert }}" > ca.crt
-          echo "namespace in deploy-to-env is: ${{ secrets.kube_namespace }}" 
+          echo "namespace in deploy-to-env is: ${{ inputs.kube_namespace }}" 
           kubectl config set-cluster ${{ secrets.kube_cluster }} --certificate-authority=./ca.crt --server=https://${{ secrets.kube_cluster }}
           kubectl config set-credentials deploy-user --token=${{ secrets.kube_token }}
-          kubectl config set-context ${{ secrets.kube_cluster }} --cluster=${{ secrets.kube_cluster }} --user=deploy-user --namespace=${{ secrets.kube_namespace }}
+          kubectl config set-context ${{ secrets.kube_cluster }} --cluster=${{ secrets.kube_cluster }} --user=deploy-user --namespace=${{ inputs.kube_namespace }}
           kubectl config use-context ${{ secrets.kube_cluster }}
-          kubectl -n ${{ secrets.kube_namespace }} apply -f deployments/
+          kubectl -n ${{ inputs.kube_namespace }} apply -f deployments/

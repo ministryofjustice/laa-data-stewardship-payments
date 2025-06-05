@@ -196,9 +196,9 @@ jobs:
     with:
       github_environment: staging
       aws_region: ${{ vars.ECR_REGION }}
+      kube_namespace: laa-data-stewardship-payments-staging
     secrets:
       ecr_role_to_assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-      kube_namespace: laa-data-stewardship-payments-staging
       kube_cluster: ${{ secrets.KUBE_CLUSTER }}
       kube_token: ${{ secrets.KUBE_TOKEN }}
       kube_cert: ${{ secrets.KUBE_CERT }}
