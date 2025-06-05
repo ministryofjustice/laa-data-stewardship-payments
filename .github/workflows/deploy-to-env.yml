@@ -58,6 +58,7 @@ jobs:
           NAMESPACE: ${{ secrets.kube_namespace }}
       - run: |
           echo "${{ secrets.kube_cert }}" > ca.crt
+          echo "namespace in deploy-to-env is: ${{ secrets.kube_namespace }}" 
           kubectl config set-cluster ${{ secrets.kube_cluster }} --certificate-authority=./ca.crt --server=https://${{ secrets.kube_cluster }}
           kubectl config set-credentials deploy-user --token=${{ secrets.kube_token }}
           kubectl config set-context ${{ secrets.kube_cluster }} --cluster=${{ secrets.kube_cluster }} --user=deploy-user --namespace=${{ secrets.kube_namespace }}
