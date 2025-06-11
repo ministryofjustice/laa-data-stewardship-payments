@@ -61,7 +61,7 @@ runs:
         KUBE_NAMESPACE: ${{ inputs.kube-namespace }}
         VALUES_FILE: .helm/data-stewardship-payments/values/${{ inputs.app-environment }}.yaml
       run: |
-        helm upgrade data-stewardship-payments .helm/data-stewardship-payments \
+        helm upgrade laa-data-stewardship-payments .helm/data-stewardship-payments \
           --namespace ${KUBE_NAMESPACE} \
           --set image.repository="${ECR_REGISTRY}/${ECR_REPOSITORY}" \
           --set image.tag="${GIT_SHA}" \

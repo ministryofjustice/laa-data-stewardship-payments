@@ -74,7 +74,7 @@ runs:
         VALUES_FILE: .helm/data-stewardship-payments/values/${{ inputs.app-environment }}.yaml
         RELEASE_NAME: ${{ steps.extract_release_name.outputs.release-name }}
       run: |
-        ingress_name="data-stewardship-payments"
+        ingress_name="laa-data-stewardship-payments-ingress"
         release_host="$RELEASE_NAME-$KUBE_NAMESPACE.apps.live.cloud-platform.service.justice.gov.uk"
         identifier="$RELEASE_NAME-$ingress_name-$KUBE_NAMESPACE-green"
 

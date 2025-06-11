@@ -48,4 +48,6 @@ Selector labels
 {{- define "data-stewardship-payments.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "data-stewardship-payments.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app: {{ template "data-stewardship-payments.name" . }}
+release: {{ .Release.Name }}
 {{- end }}
