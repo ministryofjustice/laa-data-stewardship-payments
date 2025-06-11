@@ -49,14 +49,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "data-stewardship-payments.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "data-stewardship-payments.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "data-stewardship-payments.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
