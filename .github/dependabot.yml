@@ -19,8 +19,13 @@ registries:
 updates:
   - package-ecosystem: "gradle"
     directory: "/"
+    allow:
+      - dependency-type: "all"
     schedule:
       interval: "weekly"
+      day: wednesday
+      time: "06:00"
+      timezone: Europe/London
     registries: "*"
     groups:
       gradle-updates:
@@ -33,6 +38,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: wednesday
+      time: "07:00"
+      timezone: Europe/London
     groups:
       github-actions:
         patterns:
