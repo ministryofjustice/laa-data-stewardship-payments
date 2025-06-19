@@ -1,6 +1,6 @@
 plugins {
     id 'io.freefair.lombok' version '8.13.1'
-    id 'uk.gov.laa.ccms.springboot.laa-ccms-spring-boot-gradle-plugin' version '0.0.36'
+    id 'uk.gov.laa.ccms.springboot.laa-ccms-spring-boot-gradle-plugin'
     id "com.dorongold.task-tree" version "2.1.1"
 }
 
@@ -25,6 +25,11 @@ jacocoTestCoverageVerification {
     }
 }
 
+//Overriding tomcat version coming from laa-ccms-spring-boot-gradle-plugin -> spring boot 3.5.0
+// to avoid snyk warning that stops the build
+//Remove the line below when the laa-ccms-spring-boot-gradle-plugin is upgraded
+ext['tomcat.version'] = '10.1.42'
+
 dependencies {
     implementation project(':claims-data:api')
 
@@ -32,11 +37,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    //Overriding tomcat-embed-core version coming from laa-ccms-spring-boot-gradle-plugin -> spring boot 3.5.0
-    // to avoid snyk warning that stops the build
-    //Remove the line below when the laa-ccms-spring-boot-gradle-plugin is upgraded
-    implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.42'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
 

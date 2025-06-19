@@ -1,22 +1,21 @@
 plugins {
     id 'org.openapi.generator' version '7.13.0'
-    id 'uk.gov.laa.ccms.springboot.laa-ccms-spring-boot-gradle-plugin' version '0.0.36'
+    id 'uk.gov.laa.ccms.springboot.laa-ccms-spring-boot-gradle-plugin'
 }
 
 repositories {
     mavenCentral()
 }
 
+//Overriding tomcat version coming from laa-ccms-spring-boot-gradle-plugin -> spring boot 3.5.0
+// to avoid snyk warning that stops the build
+//Remove the line below when the laa-ccms-spring-boot-gradle-plugin is upgraded
+ext['tomcat.version'] = '10.1.42'
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
-
-    //Overriding tomcat-embed-core version coming from laa-ccms-spring-boot-gradle-plugin -> spring boot 3.5.0
-    // to avoid snyk warning that stops the build
-    //Remove the line below when the laa-ccms-spring-boot-gradle-plugin is upgraded
-    implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.42'
-
 }
 
 sourceSets.main.java.srcDirs += ['generated/src/main/java']
