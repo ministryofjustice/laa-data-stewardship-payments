@@ -33,6 +33,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    //Overriding tomcat-embed-core version coming from laa-ccms-spring-boot-gradle-plugin -> spring boot 3.5.0
+    // to avoid snyk warning that stops the build
+    //Remove the line below when the laa-ccms-spring-boot-gradle-plugin is upgraded
+    implementation 'org.apache.tomcat.embed:tomcat-embed-core:10.1.42'
+
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
 
     implementation 'org.mapstruct:mapstruct:1.6.3'
