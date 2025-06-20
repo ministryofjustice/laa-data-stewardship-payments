@@ -25,6 +25,11 @@ jacocoTestCoverageVerification {
     }
 }
 
+//Overriding tomcat version coming from laa-ccms-spring-boot-gradle-plugin -> spring boot 3.5.0
+// to avoid snyk warning that stops the build
+//Remove the line below when the laa-ccms-spring-boot-gradle-plugin is upgraded
+ext['tomcat.version'] = '10.1.42'
+
 dependencies {
     implementation project(':claims-data:api')
 
