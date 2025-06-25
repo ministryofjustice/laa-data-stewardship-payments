@@ -79,10 +79,6 @@ runs:
         echo "==== begin values file ==="
         cat ${VALUES_FILE}
         echo "==== end Values file ==="
-#        echo "==== begin ingress list ==="
-#        kubectl -n ${KUBE_NAMESPACE} get ingresses -o yaml
-#        kubectl -n ${KUBE_NAMESPACE} delete ingress laa-data-stewardship-payments-ingress
-#        echo "==== end ingress list ==="
         helm upgrade laa-data-stewardship-payments .helm/data-stewardship-payments \
           --namespace ${KUBE_NAMESPACE} \
           --set image.repository="${ECR_REGISTRY}/${ECR_REPOSITORY}" \
