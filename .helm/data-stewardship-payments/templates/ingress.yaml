@@ -8,7 +8,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}-ingress
   labels:
     app: {{ template "data-stewardship-payments.name" . }}
     chart: {{ template "data-stewardship-payments.chart" . }}
