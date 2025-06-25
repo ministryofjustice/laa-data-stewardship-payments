@@ -61,12 +61,17 @@ runs:
         KUBE_NAMESPACE: ${{ inputs.kube-namespace }}
         VALUES_FILE: .helm/data-stewardship-payments/values/${{ inputs.app-environment }}.yaml
       run: |
-        echo "==== BEGIN RENDERED INGRESS ===="
-        helm template laa-data-stewardship-payments .helm/data-stewardship-payments \
+        echo "==== begin helm command: ===="
+        echo 'helm upgrade laa-data-stewardship-payments .helm/data-stewardship-payments \
           --namespace ${KUBE_NAMESPACE} \
-          -f ${VALUES_FILE} \
-          --show-only templates/ingress.yaml
-        echo "==== BEGIN RENDERED INGRESS ===="
+          --set image.repository="${ECR_REGISTRY}/${ECR_REPOSITORY}" \
+          --set image.tag="${GIT_SHA}" \
+          --values ${VALUES_FILE} \
+          --install \
+          --wait'
+        echo "==== end helm command ==="
+        echo "==== begin values file ==="
+        cat ${VALUES_FILE}
         helm upgrade laa-data-stewardship-payments .helm/data-stewardship-payments \
           --namespace ${KUBE_NAMESPACE} \
           --set image.repository="${ECR_REGISTRY}/${ECR_REPOSITORY}" \
