@@ -74,9 +74,9 @@ runs:
         VALUES_FILE: .helm/data-stewardship-payments/values/${{ inputs.app-environment }}.yaml
         RELEASE_NAME: ${{ steps.extract_release_name.outputs.release-name }}
       run: |
-        ingress_name="laa-data-stewardship-payments-ingress"
+        ingress_name="$RELEASE_NAME-laa-data-stewardship-payments-ingress"
         release_host="$RELEASE_NAME-$KUBE_NAMESPACE.apps.live.cloud-platform.service.justice.gov.uk"
-        identifier="$RELEASE_NAME-$ingress_name-$KUBE_NAMESPACE-green"
+        identifier="$ingress_name-$KUBE_NAMESPACE-green"
 
         echo "Deploying commit: $GIT_SHA under release name: $RELEASE_NAME to $release_host..."
 
