@@ -35,4 +35,4 @@ runs:
         branch_name=${{ steps.extract_branch.outputs.branch_name }}
         truncated_branch=$(echo $branch_name | tr '[:upper:]' '[:lower:]' | sed 's:^\w*\/::' | tr -s ' _/[]().' '-' | cut -c1-30 | sed 's/-$//')
         echo "release_name=${truncated_branch}" >> $GITHUB_OUTPUT
-        echo "release_name being exported: truncated_branch"
+        echo "release_name being exported: ${truncated_branch}"
