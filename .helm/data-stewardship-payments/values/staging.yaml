@@ -20,7 +20,7 @@ service:
 
 ingress:
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: "laa-data-stewardship-payments-ingress-laa-data-stewardship-payments-staging-green"
+    external-dns.alpha.kubernetes.io/set-identifier: "laa-data-stewardship-payments-dsp-chart-laa-data-stewardship-payments-staging-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
   hosts:
     - laa-data-stewardship-payments-staging.apps.live.cloud-platform.service.justice.gov.uk
