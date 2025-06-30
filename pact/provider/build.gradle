@@ -1,0 +1,103 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'au.com.dius.pact' version '4.2.13'
+}
+
+group = 'uk.gov.justice.laa.datastewardship.payments'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot for mock server
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Pact provider testing
+    testImplementation 'au.com.dius.pact.provider:junit5:4.2.13'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// --------------------------------------------------------------------------------
+// Pact-broker / provider configuration
+// --------------------------------------------------------------------------------
+pact {
+  serviceProviders {
+    'claims-api-provider' {
+      // fetch all pacts for this provider from your locally running broker
+      hasPactsFromPactBroker('http://localhost:9292',
+        // basic auth against broker
+        authentication: ['Basic', 'pact_workshop', 'pact_workshop'],
+        // only pull pacts tagged with these consumer tags
+        tags: ['manual-tests','dev'],
+        // tag your provider verification results with this tag
+        providerTags: ['dev']
+      ) { /* no state change handlers needed here */ }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Tasks
+// --------------------------------------------------------------------------------
+
+// BootRun task to launch your mock provider in isolation
+task startMockProvider(type: org.springframework.boot.gradle.tasks.run.BootRun) {
+    description = 'Start the mock provider server (for local dev)'
+    group = 'pact'
+    mainClass = 'uk.gov.justice.laa.datastewardship.payments.pact.provider.MockProviderApplication'
+    doFirst {
+        println '🚀 Starting mock provider on http://localhost:8080…'
+    }
+}
+
+// Verify against pacts already published in broker
+task verifyPacts(type: Test) {
+    group       = 'pact'
+    description = 'Run all provider verification tests via JUnit'
+    useJUnitPlatform()
+    // pick up any provider-side Pact tests
+    include '**/*ProviderTest.class'
+    doFirst {
+        println '🔍 Running provider verification against Broker at http://localhost:9292…'
+    }
+    doLast {
+        println '✅ Provider verification completed'
+    }
+}
+
+// Specifically run your ManualContractsProviderTest (with --pending disabled)
+task verifyManualContracts(type: Test) {
+    group       = 'pact'
+    description = 'Force Pact JUnit @PactBroker verification (no pending allowed)'
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }             // always re-run
+    dependsOn testClasses                      // ensure classes are compiled
+    include '**/*ManualContractsProviderTest.class'
+
+    // system props to drive Pact core
+    systemProperty 'pact.verifier.publishResults',    'true'
+    systemProperty 'pact.provider.version',           project.version
+    systemProperty 'pactbroker.enablePending',        'false'
+
+    doFirst {
+        println "🔍 Verifying (manual) against Broker… publishing results as v${project.version}"
+    }
+    doLast {
+        println '✅ Manual Pact verification finished'
+    }
+}

@@ -22,4 +22,7 @@ rootProject.name = 'laa-data-stewardship-payments'
 include 'claims-data'
 include 'claims-data:api'
 include 'claims-data:service'
+include 'pact'
+include 'pact:consumer'
+include 'pact:provider'
 

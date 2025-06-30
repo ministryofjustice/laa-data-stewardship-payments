@@ -1,0 +1,184 @@
+// Root build file for Pact POC
+// This coordinates all Pact-related tasks across consumer and provider modules
+
+apply plugin: 'base'
+
+// Custom tasks that orchestrate the entire Pact workflow
+task startBroker {
+    description = 'Start the Pact Broker using Docker Compose'
+    group = 'pact'
+    
+    doLast {
+        println '🚀 Starting Pact Broker...'
+        exec {
+            workingDir 'broker'
+            commandLine 'docker-compose', 'up', '-d'
+        }
+        
+        println '⏳ Waiting for Pact Broker to be ready...'
+        sleep(10000) // Wait 10 seconds for startup
+        
+        println '✅ Pact Broker started successfully!'
+        println '🌐 Access at: http://localhost:9292'
+        println '👤 Username: pact_workshop'
+        println '🔑 Password: pact_workshop'
+    }
+}
+
+task stopBroker {
+    description = 'Stop the Pact Broker'
+    group = 'pact'
+    
+    doLast {
+        println '🛑 Stopping Pact Broker...'
+        exec {
+            workingDir 'broker'
+            commandLine 'docker-compose', 'down'
+        }
+        println '✅ Pact Broker stopped'
+    }
+}
+
+
+task startMockProvider {
+    description = 'Start the mock provider server'
+    group = 'pact'
+    dependsOn ':pact:provider:startMockProvider'
+}
+
+task runFullPactWorkflow {
+    description = 'Run the complete Pact testing workflow'
+    group = 'pact'
+    
+    doLast {
+        println '''
+🎯 Complete Pact Testing Workflow
+================================
+
+1. Starting Pact Broker...
+'''
+        
+        // Start broker
+        exec {
+            workingDir 'broker'
+            commandLine 'docker-compose', 'up', '-d'
+        }
+        
+        println '⏳ Waiting for broker startup...'
+        sleep(15000)
+        
+        println '''
+2. Running manual consumer tests...
+'''
+        
+        // Run consumer tests (will publish contracts)
+        exec {
+            commandLine './gradlew', ':pact:consumer:publishManualPacts'
+        }
+        
+        println '''
+3. Generating and publishing OpenAPI contracts...
+'''
+        
+        // Generate and publish OpenAPI contracts
+        exec {
+            workingDir 'openapi-tools'
+            commandLine 'bash', 'generate-contracts.sh'
+        }
+        exec {
+            workingDir 'openapi-tools'
+            commandLine 'bash', 'publish-openapi-contracts.sh'
+        }
+        
+        println '''
+4. Running provider verification tests...
+'''
+        
+        // Run provider tests
+        exec {
+            commandLine './gradlew', ':pact:provider:verifyAllContracts'
+        }
+        
+        println '''
+🎉 Complete Pact Workflow Finished!
+===================================
+
+✅ Manual consumer contracts: Generated and published
+✅ OpenAPI contracts: Generated and published  
+✅ Provider verification: Completed for both contract types
+
+🌐 View all results at: http://localhost:9292
+📊 Compare manual vs OpenAPI-generated contracts
+🔍 Check provider verification results
+
+Next steps:
+- Review contracts in Pact Broker UI
+- Compare differences between manual and OpenAPI approaches
+- Run individual components: ./gradlew pact:startMockProvider
+'''
+    }
+}
+
+task pactStatus {
+    description = 'Show Pact system status and useful commands'
+    group = 'pact'
+    
+    doLast {
+        println '''
+🔍 Pact Testing System Status
+============================
+
+📋 Available Commands:
+  ./gradlew pact:startBroker              - Start Pact Broker (Docker)
+  ./gradlew pact:stopBroker               - Stop Pact Broker
+  ./gradlew pact:runConsumerTests         - Run manual consumer tests
+  ./gradlew pact:generateOpenApiContracts - Generate OpenAPI contracts
+  ./gradlew pact:publishOpenApiContracts  - Publish OpenAPI contracts
+  ./gradlew pact:startMockProvider        - Start mock provider server
+  ./gradlew pact:runProviderTests         - Run provider verification
+  ./gradlew pact:runFullPactWorkflow      - Complete end-to-end workflow
+
+🌐 URLs:
+  Pact Broker: http://localhost:9292 (pact_workshop/pact_workshop)
+  Mock Provider: http://localhost:8080
+  Provider Health: http://localhost:8080/actuator/health
+
+📁 Important Files:
+  OpenAPI Spec: claims-data/api/open-api-specification.yml
+  Consumer Tests: pact/consumer/src/test/java/.../ClaimsApiConsumerTest.java
+  Provider Tests: pact/provider/src/test/java/.../
+  Generated Contracts: pact/contracts/openapi-generated/
+'''
+
+        // Check if broker is running
+        try {
+            def brokerStatus = new URL('http://localhost:9292/diagnostic/status/heartbeat').text
+            println '✅ Pact Broker: RUNNING'
+        } catch (Exception e) {
+            println '❌ Pact Broker: NOT RUNNING (run pact:startBroker)'
+        }
+        
+        // Check if provider is running
+        try {
+            def providerStatus = new URL('http://localhost:8080/actuator/health').text
+            println '✅ Mock Provider: RUNNING'
+        } catch (Exception e) {
+            println '❌ Mock Provider: NOT RUNNING (run pact:startMockProvider)'
+        }
+    }
+}
+
+
+task runConsumerTests {
+    description = 'Run manual consumer tests and publish contracts'
+    group = 'pact'
+    dependsOn ':pact:consumer:publishManualPacts'
+    
+    doLast {
+        println '✅ Manual consumer tests completed and contracts published'
+    }
+}
+
+
+// Show status when gradle is run without specific task
+defaultTasks 'pactStatus'

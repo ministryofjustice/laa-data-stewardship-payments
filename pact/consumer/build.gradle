@@ -1,0 +1,75 @@
+plugins {
+    id 'java'
+    id 'au.com.dius.pact' version '4.1.11'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Pact consumer testing - using older but stable version
+    testImplementation 'au.com.dius.pact.consumer:junit5:4.1.11'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+    
+    // HTTP client for making requests - simpler approach
+    testImplementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    
+    // JSON processing
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'pact.rootDir', "$buildDir/pacts"
+}
+
+version = '1.6.1'
+
+pact {
+    publish {
+        pactDirectory = "$buildDir/pacts"
+        pactBrokerUrl = 'http://localhost:9292'
+        pactBrokerUsername = 'pact_workshop'
+        pactBrokerPassword = 'pact_workshop'
+        consumerVersion = project.version
+        tags = ['dev', 'manual-tests']
+    }
+}
+
+// Custom tasks for the POC
+task runConsumerTests(type: Test) {
+    description = 'Run Pact consumer tests to generate contracts'
+    useJUnitPlatform()
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+    
+    doFirst {
+        println '🧪 Running Pact consumer tests...'
+    }
+    
+    doLast {
+        println '✅ Consumer tests completed. Pact contracts generated in build/pacts/'
+        fileTree("$buildDir/pacts").visit { file ->
+            if (!file.isDirectory()) {
+                println "   📄 ${file.relativePath}"
+            }
+        }
+    }
+}
+
+task publishManualPacts {
+    description = 'Publish manually created Pact contracts to broker'
+    dependsOn runConsumerTests, pactPublish
+    
+    doLast {
+        println '✅ Manual Pact contracts published to broker'
+        println '🌐 View at: http://localhost:9292'
+    }
+}
