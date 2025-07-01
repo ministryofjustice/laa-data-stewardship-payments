@@ -5,6 +5,8 @@ FROM amazoncorretto:21-alpine
 RUN mkdir -p /opt/laa-data-stewardship-payments/claims-data/
 WORKDIR /opt/laa-data-stewardship-payments/claims-data/
 
+RUN find . -type f | grep jar
+
 # Copy the JAR file into the container
 COPY claims-data/service/build/libs/service-1.0.0.jar app.jar
 
