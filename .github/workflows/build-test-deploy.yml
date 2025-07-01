@@ -115,6 +115,47 @@ jobs:
           image: laa-data-stewardship-payments/claims-data:scan
           args: --file=./claims-data/Dockerfile --severity-threshold=high
 
+  build-push-docker:
+    name: build and push docker image
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        # ---------- AWS auth (OIDC) ----------
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4.2.1
+        with:
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{  vars.ECR_REGION }}
+
+      # ---------- AWS auth (OIDC) ----------
+      - name: Configure AWS creds
+        uses: aws-actions/configure-aws-credentials@v4.2.1
+        with:
+          role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          aws-region: ${{  vars.ECR_REGION }}
+
+      - name: Image tag
+        id: vars
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "tag=main-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=branch-${GITHUB_SHA}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Login to ECR
+        uses: aws-actions/amazon-ecr-login@062b18b96a7aff071d4dc91bc00c4c1a7945b076
+
+      - name: Build & push
+        run: |
+          docker build \
+            --build-arg target=production \
+            -t $ECR_ENDPOINT:${{ steps.vars.outputs.tag }} .
+          docker push $ECR_ENDPOINT:${{ steps.vars.outputs.tag }}
 
   # TODO: Remove dev as uat will handle multi-deploys
   deploy-dev:
