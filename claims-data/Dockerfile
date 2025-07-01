@@ -5,10 +5,8 @@ FROM amazoncorretto:21-alpine
 RUN mkdir -p /opt/laa-data-stewardship-payments/claims-data/
 WORKDIR /opt/laa-data-stewardship-payments/claims-data/
 
-RUN echo "current working directory: $PWD" && find . -type f | grep jar
-
 # Copy the JAR file into the container
-COPY claims-data/service/build/libs/service-1.0.0.jar app.jar
+COPY service/build/libs/service-1.0.0.jar app.jar
 
 # Create a group and non-root user
 RUN addgroup -S appgroup && adduser -u 1001 -S appuser -G appgroup
