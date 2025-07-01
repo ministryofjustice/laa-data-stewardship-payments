@@ -52,6 +52,26 @@ runs:
       with:
         mask-password: 'true'
 
+    - name: Debug ECR - Check image availability
+      shell: bash
+      env:
+        ECR_REPOSITORY: ${{ inputs.ecr-repository }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        GIT_SHA: ${{ github.sha }}
+      run: |
+        echo "Checking if image exists: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${GIT_SHA}"
+        
+        aws ecr describe-images \
+          --repository-name "${ECR_REPOSITORY}" \
+          --image-ids imageTag="${GIT_SHA}" \
+          --region "${AWS_REGION}" || echo "Image not found in ECR"
+
+        echo "Listing all images in ECR repo ${ECR_REPOSITORY}..."
+        aws ecr list-images \
+          --repository-name "${ECR_REPOSITORY}" \
+          --region "${AWS_REGION}" \
+          --max-items 10
+
     - name: Helm deployment
       shell: bash
       env:
