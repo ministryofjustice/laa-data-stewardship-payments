@@ -25,6 +25,7 @@ This shows available commands and checks if services are running.
 ### Step 3: Run Manual Consumer Tests
 
 ```bash
+./gradlew :pact:consumer:test 
 ./gradlew :pact:consumer:publishManualPacts
 ```
 
@@ -70,16 +71,6 @@ This shows available commands and checks if services are running.
 - Runs contract verification tests
 - Shows pass/fail results
 
-### Step 7: Verify Provider Against OpenAPI Contracts
-
-```bash
-./gradlew :pact:provider:verifyOpenApiContracts
-```
-
-**What happens:**
-- Downloads OpenAPI-generated contracts
-- Verifies same provider satisfies both contract types
-- Demonstrates contract compatibility
 
 ## 🎯 Complete Workflow (All-in-One)
 
@@ -153,11 +144,6 @@ Both contract types should **PASS** because:
 ### Test Provider Only:
 ```bash
 ./gradlew :pact:provider:test  # Run all provider tests
-```
-
-### Generate Contracts Only:
-```bash
-./gradlew pact:generateOpenApiContracts  # Generate without publishing
 ```
 
 ## 🔧 Troubleshooting
