@@ -37,8 +37,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Checkout
-      uses: actions/checkout@v4
 
     - name: Extract release name
       id: extract_release_name
