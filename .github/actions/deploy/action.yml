@@ -59,7 +59,7 @@ runs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         GIT_SHA: ${{ github.sha }}
         KUBE_NAMESPACE: ${{ inputs.kube-namespace }}
-        VALUES_FILE: .helm/data-stewardship-payments/values/dev.yaml
+        VALUES_FILE: .helm/data-stewardship-payments/values/${{ inputs.app-environment }}.yaml
       run: |
         helm upgrade laa-data-stewardship-payments .helm/data-stewardship-payments \
           --namespace ${KUBE_NAMESPACE} \
