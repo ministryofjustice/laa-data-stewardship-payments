@@ -173,6 +173,9 @@ jobs:
 
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Deploy dev
         id: deploy_dev
         uses: ./.github/actions/deploy
@@ -198,6 +201,9 @@ jobs:
       contents: read
 
     steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Deploy UAT branch
         id: deploy_uat_branch
@@ -225,6 +231,9 @@ jobs:
       contents: read
 
     steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Deploy staging
         id: deploy_staging
