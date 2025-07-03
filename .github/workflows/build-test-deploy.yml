@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - infra/cleanup
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -187,6 +188,33 @@ jobs:
           kube-cluster: ${{ secrets.KUBE_CLUSTER }}
           kube-namespace: ${{ secrets.KUBE_NAMESPACE }}
           app-environment: uat
+
+  cleanup-uat:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - build-push-docker
+      - vulnerability-scan-app
+      - vulnerability-scan-docker
+    environment: uat
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cleanup uat
+        id: cleanup_uat
+        uses: ./.github/actions/cleanup_branch
+        with:
+          kube-cert: ${{ secrets.KUBE_CERT }}
+          kube-token: ${{ secrets.KUBE_TOKEN }}
+          kube-cluster: ${{ secrets.KUBE_CLUSTER }}
+          kube-namespace: ${{ secrets.KUBE_NAMESPACE }}
+          app-environment: staging
 
   deploy-staging:
     if: github.ref == 'refs/heads/main'
