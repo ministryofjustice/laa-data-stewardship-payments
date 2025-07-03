@@ -12,30 +12,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v3
 
-    - name: Delete all and extended resources
-      shell: bash
-      run: |
-        echo "Deleting all preview resources in namespace '${{ inputs.kube_namespace }}' with label 'release=${{ inputs.release }}'"
-
-        RESOURCES=(
-          all
-          ingress
-          configmap
-          secret
-          pvc
-          job
-          cronjob
-          serviceaccount
-          role
-          rolebinding
-        )
-
-        for r in "${RESOURCES[@]}"; do
-          echo "Deleting $r..."
-          kubectl delete "$r" -n "${{ inputs.kube_namespace }}" -l "release=${{ inputs.release }}" --ignore-not-found
-        done
-
-        echo "Cleanup complete."
+  - name: Uninstall Helm release
+    shell: bash
+    run: helm uninstall ${{ inputs.release }} --namespace ${{ inputs.kube_namespace }}
