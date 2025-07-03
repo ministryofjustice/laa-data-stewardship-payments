@@ -17,13 +17,10 @@ runs:
       id: extract_branch
       shell: bash
       run: |
-        echo "BRANCH_NAME=$(git log -1 --pretty=%B | grep -oE 'Merge pull request #[0-9]+ from .*/(.*)' | awk '{print $NF}')" >> $GITHUB_OUTPUT
+        echo "BRANCH_NAME=$(git log -1 --pretty=%B | grep -oE 'Merge pull request #[0-9]+ from .*/(.*)' | awk '{print $NF}' | sed 's#^[^/]*/##')" >> $GITHUB_OUTPUT
 
-    - name: Extract merged release name
+    - name: Extract release name from branch name
       id: extract_release
-      shell: bash
-      run: |
-        branch_name=${{ steps.extract_branch.outputs.branch_name }}
-        truncated_branch=$(echo $branch_name | tr '[:upper:]' '[:lower:]' | tr -s ' _/[]().' '-' | cut -c1-30 | sed 's/-$//')
-        echo "release_name=${truncated_branch}" >> $GITHUB_OUTPUT
-        echo "release_name being exported: ${truncated_branch}"
+      uses: ./.github/actions/extract_release_name_from_branch
+      with:
+        branch_name: ${{ steps.extract_branch.outputs.branch_name }}
