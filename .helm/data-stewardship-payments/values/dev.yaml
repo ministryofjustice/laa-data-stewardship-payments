@@ -1,0 +1,34 @@
+# Default values for data-stewardship-payments.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: null
+  tag: null
+
+service_account:
+  name: laa-data-stewardship-payments-dev-service-account
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: "laa-data-stewardship-payments-dsp-chart-laa-data-stewardship-payments-dev-green"
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+  hosts:
+    - laa-data-stewardship-payments-dev.apps.live.cloud-platform.service.justice.gov.uk
+  tls:
+    - hosts:
+      - domain: laa-data-stewardship-payments-dev.apps.live.cloud-platform.service.justice.gov.uk
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1G
+  requests:
+    cpu: 10m
+    memory: 125Mi
