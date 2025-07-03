@@ -1,0 +1,40 @@
+name: "Cleanup branch"
+description: 'Cleanup the UAT environment resources after a branch is merged into main'
+inputs:
+  kube-cert:
+    description: "Kubernetes cluster authentication certificate"
+    required: true
+  kube-token:
+    description: "Kubernetes cluster authentication token"
+    required: true
+  kube-cluster:
+    description: "Kubernetes cluster name"
+    required: true
+  kube-namespace:
+    description: "Kubernetes cluster namespace"
+    required: true
+  app-environment:
+    description: "environment to which the app is being deployed [staging, production, etc]"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Get merged release name
+      id: extract_merged_release_name
+      uses: ./.github/actions/get_merged_release_name
+
+    - name: Authenticate to the cluster
+      uses: ministryofjustice/laa-reusable-github-actions/.github/actions/authenticate_to_cluster@2aa2676c3cd9876ec7037ee8b3d729d0306cb7c6
+      with:
+        kube-cert: ${{ inputs.kube-cert }}
+        kube-token: ${{ inputs.kube-token }}
+        kube-cluster: ${{ inputs.kube-cluster }}
+        kube-namespace: ${{ inputs.kube-namespace }}
+
+    - name: Delete preview release
+      uses: ./.github/actions/delete_k8s_resources
+      with:
+        release: ${{ steps.extract_merged_release_name.outputs.release-name }}
+        kube_namespace: ${{ inputs.kube-namespace }}
