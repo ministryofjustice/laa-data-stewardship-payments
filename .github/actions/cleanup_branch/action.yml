@@ -35,4 +35,4 @@ runs:
 
     - name: Delete preview release
       shell: bash
-      run: helm uninstall ${{ steps.extract_merged_release_name.outputs.merged-release-name }} --namespace ${{ inputs.kube_namespace }}
+      run: helm uninstall ${{ steps.extract_merged_release_name.outputs.merged-release-name }} --namespace ${{ inputs.kube-namespace }}
