@@ -34,7 +34,5 @@ runs:
         kube-namespace: ${{ inputs.kube-namespace }}
 
     - name: Delete preview release
-      uses: ./.github/actions/delete_k8s_resources
-      with:
-        release: ${{ steps.extract_merged_release_name.outputs.merged-release-name }}
-        kube_namespace: ${{ inputs.kube-namespace }}
+      shell: bash
+      run: helm uninstall ${{ steps.extract_merged_release_name.outputs.merged-release-name }} --namespace ${{ inputs.kube_namespace }}
