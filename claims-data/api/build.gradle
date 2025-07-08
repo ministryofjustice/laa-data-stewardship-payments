@@ -43,7 +43,7 @@ openApiGenerate {
 compileJava.dependsOn 'openApiGenerate'
 
 clean {
-    delete "$rootDir/laa-data-stewardship-payments-api/generated"
+    delete "$rootDir/laa-data-stewardship-civil-claims-api/generated"
 }
 
 // disable for overall project when running a build

@@ -17,7 +17,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'laa-data-stewardship-payments'
+rootProject.name = 'laa-data-stewardship-civil-claims-api'
 
 include 'claims-data'
 include 'claims-data:api'
