@@ -1,15 +1,9 @@
-name: Cleanup UAT environment after a PR is merged
+name: Delete UAT deployment for a branch after its PR is merged or closed
 
 on:
   workflow_dispatch:
   pull_request:
     types: [closed]
-    branches:
-      - main
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
 
