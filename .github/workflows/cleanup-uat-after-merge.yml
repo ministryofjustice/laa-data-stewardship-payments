@@ -6,7 +6,6 @@ on:
     types: [closed]
     branches:
       - main
-      - infra/cleanup
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
