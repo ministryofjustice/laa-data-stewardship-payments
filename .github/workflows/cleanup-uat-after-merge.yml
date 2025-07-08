@@ -33,5 +33,5 @@ jobs:
           kube-token: ${{ secrets.KUBE_TOKEN }}
           kube-cluster: ${{ secrets.KUBE_CLUSTER }}
           kube-namespace: ${{ secrets.KUBE_NAMESPACE }}
-          app-environment: staging
+          app-environment: uat
 
