@@ -22,7 +22,7 @@ runs:
       id: extract_branch
       shell: bash
       run: |
-        echo "${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
+        echo "BRANCH_NAME=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
 
     - name: Extract release name from branch name
       id: extract_release
