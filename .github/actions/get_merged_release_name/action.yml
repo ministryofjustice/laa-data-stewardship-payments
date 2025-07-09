@@ -1,5 +1,5 @@
 name: "Get merged release name"
-description: 'Get a release name that has just been merged into Main branch'
+description: 'Get the release name for the PR that has just been closed or merged into Main branch'
 
 outputs:
   merged-branch-name:
@@ -13,14 +13,15 @@ runs:
   using: "composite"
   steps:
 
-    - name: Extract merged branch name
-      id: extract_branch
+    - name: Get branch name for the merged/closed PR
+      id: get_pr_branch
       shell: bash
       run: |
-        echo "BRANCH_NAME=$(git log -1 --pretty=%B | grep -oE 'Merge pull request #[0-9]+ from .*/(.*)' | awk '{print $NF}' | sed 's#^[^/]*/##')" >> $GITHUB_OUTPUT
+        echo "Merged/closed branch was: ${{ github.event.pull_request.head.ref }}"
+        echo "BRANCH_NAME=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
 
     - name: Extract release name from branch name
       id: extract_release
       uses: ./.github/actions/extract_release_name_from_branch
       with:
-        branch_name: ${{ steps.extract_branch.outputs.branch_name }}
+        branch_name: ${{ steps.get_pr_branch.outputs.branch_name }}
