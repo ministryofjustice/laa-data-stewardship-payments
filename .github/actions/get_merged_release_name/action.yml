@@ -13,11 +13,16 @@ runs:
   using: "composite"
   steps:
 
+    - name: Get merged branch name
+      shell: bash
+      run: |
+        echo "Merged/closed branch was: ${{ github.event.pull_request.head.ref }}"
+
     - name: Extract merged branch name
       id: extract_branch
       shell: bash
       run: |
-        echo "BRANCH_NAME=$(git log -1 --pretty=%B | grep -oE 'Merge pull request #[0-9]+ from .*/(.*)' | awk '{print $NF}' | sed 's#^[^/]*/##')" >> $GITHUB_OUTPUT
+        echo "${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
 
     - name: Extract release name from branch name
       id: extract_release
